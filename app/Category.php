@@ -18,4 +18,11 @@ class Category extends Model
         'ebid_category',
         'bonanza_category',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products() {
+        return $this->hasMany('App\Product');
+    }
 }

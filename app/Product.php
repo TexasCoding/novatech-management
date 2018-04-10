@@ -31,8 +31,15 @@ class Product extends Model
         'condition_description',
         'description',
         'package_includes',
-        'category_path',
+        'category_id',
         'condition',
         'banned'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category() {
+        return $this->belongsTo('App\Category');
+    }
 }

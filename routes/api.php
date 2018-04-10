@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 
 Route::namespace('Api')->group(function () {
     Route::get('/users', 'UsersController@index');
+    Route::get('/products', 'ProductsController@index');
     Route::get('/products/inventory/count', 'ProductsController@count');
     Route::post('/products/inventory/add', 'ProductsController@create');
 

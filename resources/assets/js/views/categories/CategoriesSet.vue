@@ -19,19 +19,20 @@
                     <button class="btn btn-sm btn-primary">Save</button>
                 </form>
 
-
                 <ul class="list-group">
                     <li class="list-group-item  list-group-item-success"><h5>Bonanza Categories</h5></li>
                     <li v-for="bon in filteredBonanza" class="list-group-item list-group-item-action">
                         {{bon.category_path}}
-                        <button class="btn btn-sm btn-default float-right" @click="setBonanza(bon.category_id)">Add</button>
+                        <button class="btn btn-sm btn-default float-right" @click="setBonanza(bon.category_id)">Add
+                        </button>
                     </li>
                 </ul>
                 <ul class="list-group mt-5">
                     <li class="list-group-item list-group-item-info"><h5>Ebid Categories</h5></li>
                     <li v-for="ebid in filteredEbid" class="list-group-item  list-group-item-action">
                         {{ebid.category_path}}
-                        <button class="btn btn-sm btn-default float-right" @click="setEbid(ebid.category_id)">Add</button>
+                        <button class="btn btn-sm btn-default float-right" @click="setEbid(ebid.category_id)">Add
+                        </button>
                     </li>
                 </ul>
             </li>
@@ -62,7 +63,7 @@
         },
         methods: {
             submitForm() {
-              this.setCategories();
+                this.setCategories();
             },
             setBonanza(value) {
                 this.bonanza_cat = value;

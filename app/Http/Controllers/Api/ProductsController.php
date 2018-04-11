@@ -16,7 +16,7 @@ class ProductsController extends Controller
     {
         ini_set('memory_limit', '-1');
         return BonanzaExportResource::collection(
-            Product::where('banned', false)->where('qty', '>', 1)
+            Product::where('banned', '=', false)->where('qty', '>', 1)
                 ->whereHas('category', function ($query) {
                 $query->where('bonanza_category', '>', 1);
             })->get()
@@ -35,6 +35,15 @@ class ProductsController extends Controller
         $productArray = $request->all();
 
         for ($i = 0; $i < count($productArray); $i++) {
+            if (count($productArray[$i]) < 3) {
+                $product = Product::where('sku', $productArray[$i]['sku'])->first();
+                if ($product) {
+                    $product->qty = $productArray[$i]['qty'];
+                    $product->save();
+                    return response()->json([$product->sku], 200);
+                }
+                return response()->json(['sku_not_exists'], 304);
+            }
             // Make sure category is added first
             if ($this->addCategory($productArray[$i]['category_path'])) {
                 $category = $this->getCatId($productArray[$i]['category_path']);
@@ -109,6 +118,10 @@ class ProductsController extends Controller
         return response()->json(['error' => 'product_not_added'], 304);
     }
 
+    /**
+     * @param $category_path
+     * @return mixed
+     */
     private function getCatId($category_path)
     {
         $category = Category::where('category_path', $category_path)->first();
@@ -117,6 +130,10 @@ class ProductsController extends Controller
     }
 
 
+    /**
+     * @param $category_path
+     * @return bool
+     */
     private function addCategory($category_path)
     {
         $catSubs = preg_split('/ > /', $category_path, -1, PREG_SPLIT_NO_EMPTY);
@@ -144,6 +161,9 @@ class ProductsController extends Controller
         }
     }
 
+    /**
+     * @return array
+     */
     private static function bannedWords()
     {
         return [
@@ -183,11 +203,20 @@ class ProductsController extends Controller
      */
     private function contains($str, $str2, array $arr)
     {
+        $bannedTitle = false;
+        $bannedDesc = false;
         foreach ($arr as $a) {
-            if (stripos($str, $a) !== false) return true;
-            if (stripos($str2, $a) !== false) return true;
+            if (stripos($str, $a) !== false) $bannedTitle = true;
+            if (stripos($str2, $a) !== false) $bannedDesc = true;
         }
-        return false;
+
+        if ($bannedTitle || $bannedDesc) {
+            $banned = true;
+        } else {
+            $banned = false;
+        }
+
+        return $banned;
     }
 
 }

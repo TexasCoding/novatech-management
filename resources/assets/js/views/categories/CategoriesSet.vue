@@ -86,8 +86,8 @@
                 const self = this;
                 axios.get('http://novatech.test/api/ebid_categories/get')
                     .then(response => {
-                        self.ebidCats = response.data.data;
-                        console.log(response.data.data);
+                        self.ebidCats = response.data;
+                        console.log(response.data);
                     })
                     .catch(error => {
                         console.log(error);
@@ -97,8 +97,8 @@
                 const self = this;
                 axios.get('http://novatech.test/api/bonanza_categories/get')
                     .then(response => {
-                        self.bonanzaCats = response.data.data;
-                        console.log(response.data.data);
+                        self.bonanzaCats = response.data;
+                        console.log(response.data);
                     })
                     .catch(error => {
                         console.log(error);

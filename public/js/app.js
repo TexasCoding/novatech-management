@@ -22375,8 +22375,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getEbidCategories: function getEbidCategories() {
             var self = this;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://novatech.test/api/ebid_categories/get').then(function (response) {
-                self.ebidCats = response.data.data;
-                console.log(response.data.data);
+                self.ebidCats = response.data;
+                console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
             });
@@ -22384,8 +22384,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getBonanzaCategories: function getBonanzaCategories() {
             var self = this;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://novatech.test/api/bonanza_categories/get').then(function (response) {
-                self.bonanzaCats = response.data.data;
-                console.log(response.data.data);
+                self.bonanzaCats = response.data;
+                console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
             });

@@ -51,6 +51,7 @@
                         const csv = Papa.unparse(self.csvData);
                         self.downloadCSV(csv, 'bonanza.csv');
                         //console.log(self.csvData);
+
                     });
             },
             downloadCSV(csv, file) {

@@ -1,11 +1,8 @@
 <template>
     <div>
-        <h2>Dashboard</h2>
+        <h2>Export Bonanza</h2>
         <div>
-            Available Products: {{productCount}}
-            <p>
-                <button class="btn btn-primary" @click="parseBonanza">Export Bonanza</button>
-            </p>
+            <button class="btn btn-primary" @click="parseBonanza">Export Bonanza</button>
         </div>
     </div>
 </template>
@@ -15,10 +12,10 @@
 
     export default {
         mounted() {
-            this.getProductCount();
+            // this.getProductCount();
         },
         methods: {
-            getProductCount() {
+            getBonanzaProducts() {
                 const self = this;
                 axios.get('http://novatech.test/api/products/inventory/count')
                     .then(response => {
@@ -28,19 +25,9 @@
                         console.log(error);
                     });
             },
-            getBonanzaProducts() {
-                const self = this;
-                axios.get('http://novatech.test/api/products')
-                    .then(response => {
-                        self.productCount = response.data;
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            },
             parseBonanza(){
                 const self = this;
-                axios.get('http://novatech.test/api/products')
+                axios.get('http://novatech.test/api/products/bonanza/get')
                     .then(response => {
                         self.csvData = response.data;
                     })
@@ -48,9 +35,8 @@
                         console.log(error);
                     })
                     .finally(() => {
-                        const csv = Papa.unparse(self.csvData);
+                        const csv = Papa.unparse(self.csvData.data);
                         self.downloadCSV(csv, 'bonanza.csv');
-                        //console.log(self.csvData);
                     });
             },
             downloadCSV(csv, file) {
@@ -65,7 +51,7 @@
         },
         data() {
             return {
-                productCount: 0
+                csvData: {},
             }
 
         }

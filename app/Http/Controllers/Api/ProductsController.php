@@ -14,7 +14,14 @@ class ProductsController extends Controller
 {
     public function index()
     {
-        return BonanzaExportResource::collection(Product::paginate(10));
+        ini_set('memory_limit', '-1');
+        return BonanzaExportResource::collection(
+            Product::where('banned', false)->where('qty', '>', 1)
+                ->whereHas('category', function ($query) {
+                $query->where('bonanza_category', '>', 1);
+            })->get()
+
+        );
     }
 
     public function count()
@@ -83,7 +90,7 @@ class ProductsController extends Controller
                             'package_includes' => $productArray[$i]['package_includes'],
                             'category_id' => $category,
                             'condition' => $productArray[$i]['condition'],
-                            'banned' => $this->contains($productArray[$i]['name'], self::bannedWords()),
+                            'banned' => $this->contains($productArray[$i]['name'], $productArray[$i]['description'], self::bannedWords()),
                         ];
                     }
 
@@ -164,21 +171,21 @@ class ProductsController extends Controller
             'Arrow',
             'Broadhead',
             'broadhead',
-            'Bow',
-            'bow'
         ];
     }
 
 
     /**
      * @param $str
+     * @param $str2
      * @param array $arr
      * @return bool
      */
-    private function contains($str, array $arr)
+    private function contains($str, $str2, array $arr)
     {
         foreach ($arr as $a) {
             if (stripos($str, $a) !== false) return true;
+            if (stripos($str2, $a) !== false) return true;
         }
         return false;
     }

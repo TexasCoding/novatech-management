@@ -30,11 +30,14 @@ Route::namespace('Api')->group(function () {
         Route::post('/inventory/add', 'ProductsController@create');
     });
 
-
-
     Route::prefix('bonanza')->group(function () {
         Route::get('/products', 'BonanzaExportController@index');
         Route::get('/products/count', 'BonanzaExportController@count');
+    });
+
+    Route::prefix('ebid')->group(function () {
+        Route::get('/products', 'EbidExportController@index');
+        Route::get('/products/count', 'EbidExportController@count');
     });
 
     Route::post('/categories/add', 'CategoriesController@create');

@@ -193,6 +193,15 @@ class ProductsController extends Controller
             'Arrow',
             'Broadhead',
             'broadhead',
+            'TruGlo',
+            'Delta Dart',
+            'Red-Dot',
+            'red dot',
+            'Ka-Bar',
+            'Compound Bow',
+            'compound bow',
+            'recurve bow',
+            'Apex Gear'
         ];
     }
 

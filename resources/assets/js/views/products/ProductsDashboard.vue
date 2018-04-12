@@ -17,10 +17,10 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
-                            eBid Products ({{bonanzaCount}})
+                            eBid Products ({{ebidCount}})
                         </div>
                         <div class="card-body">
-                            <button class="btn btn-primary btn-block" @click="parseBonanza">Export eBid</button>
+                            <button class="btn btn-primary btn-block" @click="parseEbid">Export eBid</button>
                         </div>
                     </div>
                 </div>
@@ -37,6 +37,7 @@
         mounted() {
             this.getProductCount();
             this.getBonanzaCount();
+            this.getEbidCount();
         },
         methods: {
             getProductCount() {
@@ -60,9 +61,19 @@
                         console.log(error);
                     });
             },
+            getEbidCount() {
+                const self = this;
+                axios.get('http://novatech.test/api/ebid/products/count')
+                    .then(response => {
+                        self.ebidCount = response.data;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            },
             parseBonanza() {
                 const self = this;
-                axios.get('http://novatech.test/api/products')
+                axios.get('http://novatech.test/api/bonanza/products')
                     .then(response => {
                         self.csvData = response.data;
                     })
@@ -72,6 +83,26 @@
                     .finally(() => {
                         const csv = Papa.unparse(self.csvData);
                         self.downloadCSV(csv, 'bonanza.csv');
+                        //console.log(self.csvData);
+
+                    });
+            },
+            parseEbid() {
+                const self = this;
+                axios.get('http://novatech.test/api/ebid/products')
+                    .then(response => {
+                        self.csvData = response.data;
+                        console.log(self.csvData);
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+                    .finally(() => {
+                        const csv = Papa.unparse(self.csvData, {
+                            delimiter: '\t',
+                        });
+                        self.downloadCSV(csv, 'ebid.txt');
                         //console.log(self.csvData);
 
                     });
@@ -90,6 +121,7 @@
             return {
                 productCount: 0,
                 bonanzaCount: 0,
+                ebidCount: 0,
             }
 
         }

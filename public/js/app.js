@@ -21535,6 +21535,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         this.getProductCount();
         this.getBonanzaCount();
+        this.getEbidCount();
     },
 
     methods: {
@@ -21555,15 +21556,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
+        getEbidCount: function getEbidCount() {
+            var self = this;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://novatech.test/api/ebid/products/count').then(function (response) {
+                self.ebidCount = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
         parseBonanza: function parseBonanza() {
             var self = this;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://novatech.test/api/products').then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://novatech.test/api/bonanza/products').then(function (response) {
                 self.csvData = response.data;
             }).catch(function (error) {
                 console.log(error);
             }).finally(function () {
                 var csv = __WEBPACK_IMPORTED_MODULE_1_papaparse___default.a.unparse(self.csvData);
                 self.downloadCSV(csv, 'bonanza.csv');
+                //console.log(self.csvData);
+            });
+        },
+        parseEbid: function parseEbid() {
+            var self = this;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://novatech.test/api/ebid/products').then(function (response) {
+                self.csvData = response.data;
+                console.log(self.csvData);
+            }).catch(function (error) {
+                console.log(error);
+            }).finally(function () {
+                var csv = __WEBPACK_IMPORTED_MODULE_1_papaparse___default.a.unparse(self.csvData, {
+                    delimiter: '\t'
+                });
+                self.downloadCSV(csv, 'ebid.txt');
                 //console.log(self.csvData);
             });
         },
@@ -21580,7 +21604,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             productCount: 0,
-            bonanzaCount: 0
+            bonanzaCount: 0,
+            ebidCount: 0
         };
     }
 });
@@ -21631,7 +21656,7 @@ var render = function() {
             _c("div", { staticClass: "card-header" }, [
               _vm._v(
                 "\n                        eBid Products (" +
-                  _vm._s(_vm.bonanzaCount) +
+                  _vm._s(_vm.ebidCount) +
                   ")\n                    "
               )
             ]),
@@ -21641,7 +21666,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-primary btn-block",
-                  on: { click: _vm.parseBonanza }
+                  on: { click: _vm.parseEbid }
                 },
                 [_vm._v("Export eBid")]
               )

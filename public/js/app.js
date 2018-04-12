@@ -21507,6 +21507,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -21514,6 +21534,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
         this.getProductCount();
+        this.getBonanzaCount();
     },
 
     methods: {
@@ -21521,14 +21542,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var self = this;
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://novatech.test/api/products/inventory/count').then(function (response) {
                 self.productCount = response.data;
+                console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        getBonanzaProducts: function getBonanzaProducts() {
+        getBonanzaCount: function getBonanzaCount() {
             var self = this;
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://novatech.test/api/products').then(function (response) {
-                self.productCount = response.data;
+            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('http://novatech.test/api/bonanza/products/count').then(function (response) {
+                self.bonanzaCount = response.data;
             }).catch(function (error) {
                 console.log(error);
             });
@@ -21557,7 +21579,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
-            productCount: 0
+            productCount: 0,
+            bonanzaCount: 0
         };
     }
 });
@@ -21571,20 +21594,60 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h2", [_vm._v("Dashboard")]),
+    _c("h2", [
+      _vm._v("Dashboard - "),
+      _c("small", [
+        _vm._v("Available Products: (" + _vm._s(_vm.productCount) + ")")
+      ])
+    ]),
     _vm._v(" "),
     _c("div", [
-      _vm._v(
-        "\n        Available Products: " +
-          _vm._s(_vm.productCount) +
-          "\n        "
-      ),
-      _c("p", [
-        _c(
-          "button",
-          { staticClass: "btn btn-primary", on: { click: _vm.parseBonanza } },
-          [_vm._v("Export Bonanza")]
-        )
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v(
+                "\n                        Bonanza Products (" +
+                  _vm._s(_vm.bonanzaCount) +
+                  ")\n                    "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-block",
+                  on: { click: _vm.parseBonanza }
+                },
+                [_vm._v("Export Bonanza")]
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-4" }, [
+          _c("div", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _vm._v(
+                "\n                        eBid Products (" +
+                  _vm._s(_vm.bonanzaCount) +
+                  ")\n                    "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-block",
+                  on: { click: _vm.parseBonanza }
+                },
+                [_vm._v("Export eBid")]
+              )
+            ])
+          ])
+        ])
       ])
     ])
   ])

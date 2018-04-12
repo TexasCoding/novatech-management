@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\BonanzaCategory;
 use App\Category;
-use App\Http\Resources\BonanzaExportResource;
 use App\Http\Resources\ProductResource;
 use App\Product;
 use Illuminate\Http\Request;
@@ -12,26 +10,30 @@ use App\Http\Controllers\Controller;
 
 class ProductsController extends Controller
 {
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index()
     {
-        ini_set('memory_limit', '-1');
-        return BonanzaExportResource::collection(
-            Product::where('banned', '=', false)->where('qty', '>', 1)
-                ->whereHas('category', function ($query) {
-                $query->where('bonanza_category', '>', 1);
-            })->get()
-
+        return ProductResource::collection(
+            Product::where('qty', '>', 1)->paginate(20)
         );
     }
 
+    /**
+     * @return int
+     */
     public function count()
     {
         return Product::count();
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
-
         $productArray = $request->all();
 
         for ($i = 0; $i < count($productArray); $i++) {

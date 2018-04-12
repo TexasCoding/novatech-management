@@ -1,11 +1,31 @@
 <template>
     <div>
-        <h2>Dashboard</h2>
+        <h2>Dashboard - <small>Available Products: ({{productCount}})</small></h2>
         <div>
-            Available Products: {{productCount}}
-            <p>
-                <button class="btn btn-primary" @click="parseBonanza">Export Bonanza</button>
-            </p>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Bonanza Products ({{bonanzaCount}})
+                        </div>
+                        <div class="card-body">
+                            <button class="btn btn-primary btn-block" @click="parseBonanza">Export Bonanza</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            eBid Products ({{bonanzaCount}})
+                        </div>
+                        <div class="card-body">
+                            <button class="btn btn-primary btn-block" @click="parseBonanza">Export eBid</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>
@@ -16,6 +36,7 @@
     export default {
         mounted() {
             this.getProductCount();
+            this.getBonanzaCount();
         },
         methods: {
             getProductCount() {
@@ -23,22 +44,23 @@
                 axios.get('http://novatech.test/api/products/inventory/count')
                     .then(response => {
                         self.productCount = response.data;
+                        console.log(response.data);
                     })
                     .catch(error => {
                         console.log(error);
                     });
             },
-            getBonanzaProducts() {
+            getBonanzaCount() {
                 const self = this;
-                axios.get('http://novatech.test/api/products')
+                axios.get('http://novatech.test/api/bonanza/products/count')
                     .then(response => {
-                        self.productCount = response.data;
+                        self.bonanzaCount = response.data;
                     })
                     .catch(error => {
                         console.log(error);
                     });
             },
-            parseBonanza(){
+            parseBonanza() {
                 const self = this;
                 axios.get('http://novatech.test/api/products')
                     .then(response => {
@@ -66,7 +88,8 @@
         },
         data() {
             return {
-                productCount: 0
+                productCount: 0,
+                bonanzaCount: 0,
             }
 
         }

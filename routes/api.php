@@ -2,6 +2,11 @@
 
 use Illuminate\Http\Request;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization, X-Auth-Token');
+header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS');
+
+
 // /*
 // |--------------------------------------------------------------------------
 // | API Routes
@@ -18,10 +23,19 @@ use Illuminate\Http\Request;
 // });
 
 Route::namespace('Api')->group(function () {
-    Route::get('/users', 'UsersController@index');
-    Route::get('/products', 'ProductsController@index');
-    Route::get('/products/inventory/count', 'ProductsController@count');
-    Route::post('/products/inventory/add', 'ProductsController@create');
+
+    Route::prefix('products')->group(function () {
+        Route::get('/', 'ProductsController@index');
+        Route::get('/inventory/count', 'ProductsController@count');
+        Route::post('/inventory/add', 'ProductsController@create');
+    });
+
+
+
+    Route::prefix('bonanza')->group(function () {
+        Route::get('/products', 'BonanzaExportController@index');
+        Route::get('/products/count', 'BonanzaExportController@count');
+    });
 
     Route::post('/categories/add', 'CategoriesController@create');
     Route::get('/categories/get', 'CategoriesController@setCategory');

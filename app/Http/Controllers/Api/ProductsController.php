@@ -194,7 +194,12 @@ class ProductsController extends Controller
             'compound bow',
             'recurve bow',
             'Apex Gear',
-            'Shark'
+            'Shark',
+            'ammunition',
+            'Ammunition',
+            'paintball',
+            'air pistol',
+            'air rifle'
         ];
     }
 

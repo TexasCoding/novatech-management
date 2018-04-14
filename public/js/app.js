@@ -21795,6 +21795,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         parseFile: function parseFile() {
             var self = this;
             self.hideForm = false;
+
             __WEBPACK_IMPORTED_MODULE_0_papaparse___default.a.parse(this.csvsFile, {
                 header: true,
                 // preview: 1000,
@@ -21802,7 +21803,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     parser.pause();
                     __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('http://novatech.test/api/products/inventory/add', results.data).then(function (response) {
                         self.successCount += 1;
-                        console.log(response);
                     }).catch(function (error) {
                         self.errorCount += 1;
                         console.log(error);

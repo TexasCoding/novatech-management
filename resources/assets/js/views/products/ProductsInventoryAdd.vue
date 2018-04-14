@@ -46,9 +46,11 @@
             submitForm() {
                 this.parseFile();
             },
+
             parseFile() {
                 const self = this;
                 self.hideForm = false;
+
                 Papa.parse(this.csvsFile, {
                     header: true,
                     // preview: 1000,
@@ -58,7 +60,6 @@
                             .post('http://novatech.test/api/products/inventory/add', results.data)
                             .then(response => {
                                 self.successCount += 1;
-                                console.log(response);
                             })
                             .catch(error => {
                                 self.errorCount += 1;
@@ -66,7 +67,6 @@
                             })
                             .finally(() => {
                                 parser.resume();
-
                             });
 
                         self.progress = (self.successCount + self.errorCount) * (100 / self.totalCount);

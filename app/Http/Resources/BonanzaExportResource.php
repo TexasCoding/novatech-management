@@ -44,14 +44,27 @@ class BonanzaExportResource extends JsonResource
         ];
     }
 
+    /**
+     * @param $name
+     * @param $sku
+     * @return string
+     */
     private function title($name, $sku)
     {
-        $sku_length = strlen($sku) + 1;
-        $short_name = preg_replace('/\W\w+\s*(\W*)$/', '$1', substr($name, 0, -$sku_length));
+        $sku_length = strlen($sku);
+
+        $new_name = substr($name, 0, 80);
+
+        $set_length = 79 - $sku_length;
+
+        $short_name = substr($new_name, 0, $set_length);
 
         return $short_name . ' ' . $sku;
     }
 
+    /**
+     * @return array
+     */
     public function image()
     {
         $image_array = explode(',', $this->additional_images);
@@ -62,6 +75,15 @@ class BonanzaExportResource extends JsonResource
         ];
     }
 
+    /**
+     * @param $name
+     * @param $description
+     * @param $package_includes
+     * @param $condition_description
+     * @param $warranty
+     * @param $return_policy
+     * @return string
+     */
     private function description(
         $name,
         $description,
@@ -96,6 +118,13 @@ class BonanzaExportResource extends JsonResource
         return $name . $description . $package . $condition . $war . $return;
     }
 
+    /**
+     * @param $brand
+     * @param $condition
+     * @param $mpn
+     * @param $upc
+     * @return string
+     */
     private function traits($brand, $condition, $mpn, $upc)
     {
         if ($brand !== '') {
@@ -136,6 +165,6 @@ class BonanzaExportResource extends JsonResource
         $payPal = $actualCost * 0.029 + 0.30;
         $bonanza = $actualCost * 0.035;
         $total = $actualCost + $payPal + $bonanza;
-        return number_format($total / 0.93, 2);
+        return number_format($total / 0.95, 2);
     }
 }

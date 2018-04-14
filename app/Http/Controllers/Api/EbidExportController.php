@@ -12,17 +12,18 @@ class EbidExportController extends Controller
     {
         ini_set('memory_limit', '-1');
         return EbidExportResource::collection(
-            Product::where('banned', '=', false)->where('qty', '>', 1)
+            Product::where('banned', '=', false)
                 ->whereHas('category', function ($query) {
                     $query->where('ebid_category', '>', 1);
-                })->limit(30)->get()
+                })
+                ->get()
 
         );
     }
 
     public function count()
     {
-        return Product::where('banned', '=', false)->where('qty', '>', 1)
+        return Product::where('banned', '=', false)
             ->whereHas('category', function ($query) {
                 $query->where('ebid_category', '>', 1);
             })->count();

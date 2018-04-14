@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.16 on 2018-04-11 23:33:35.
+ * Generated for Laravel 5.6.16 on 2018-04-13 00:45:36.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -12440,6 +12440,49 @@ namespace Illuminate\Support\Facades {
  
 }
 
+namespace TomLingham\Searchy\Facades { 
+
+    class Searchy {
+        
+        /**
+         * 
+         *
+         * @param $searchable
+         * @return $this 
+         * @static 
+         */ 
+        public static function search($searchable)
+        {
+            return \TomLingham\Searchy\SearchBuilder::search($searchable);
+        }
+        
+        /**
+         * 
+         *
+         * @return \TomLingham\Searchy\FuzzySearchDriver 
+         * @static 
+         */ 
+        public static function fields()
+        {
+            return \TomLingham\Searchy\SearchBuilder::fields();
+        }
+        
+        /**
+         * 
+         *
+         * @param $driverName
+         * @return $this 
+         * @static 
+         */ 
+        public static function driver($driverName)
+        {
+            return \TomLingham\Searchy\SearchBuilder::driver($driverName);
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -14677,6 +14720,8 @@ namespace  {
     class Validator extends \Illuminate\Support\Facades\Validator {}
 
     class View extends \Illuminate\Support\Facades\View {}
+
+    class Searchy extends \TomLingham\Searchy\Facades\Searchy {}
  
 }
 

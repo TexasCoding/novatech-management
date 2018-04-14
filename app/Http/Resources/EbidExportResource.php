@@ -14,24 +14,55 @@ class EbidExportResource extends JsonResource
      */
     public function toArray($request)
     {
+        if ($this->qty < 2) {
+            return [
+                'Username' => 'aegisaccessories',
+                'Category id' => '',
+                'eBid Store Category' => '',
+                'Barcode' => '',
+                'Auction Title' => '',
+                'Image URL' => '',
+                'Item Condition' => '',
+                'Quantity' => '',
+                'Start' => '',
+                'End' => '',
+                'Starting Bid' => '',
+                'Sales Tax' => '',
+                'Reserve' => '',
+                'Feature' => '',
+                'YouTube Video ID' => '',
+                'BuyNow Price' => '',
+                'Brand' => '',
+                'Domestic Shipping' => '',
+                'International Shipping' => '',
+                'Payment Methods' => '',
+                'Auto Repost' => '',
+                'SKU' => $this->sku,
+                'Dispatch Time' =>'',
+                'Return Policy' => '',
+                'Description' => '',
+                'Action' => 'd',
+                'end' => '##end##',
+            ];
+        }
         return [
             'Username' => 'aegisaccessories',
             'Category id' => $this->category->ebid_category,
             'eBid Store Category' => '',
-            'Barcode' => $this->upc_code,
+            'Barcode' => preg_replace("/[^0-9,.]/", "", $this->upc_code ),
             'Auction Title' => $this->title(
                 $this->name,
                 $this->sku
             ),
             'Image URL' => $this->image(),
-            'Item Condition' => $this->condition,
-            'Quantity' => $this->qty,
-            'Start' => 'Immediate',
+            'Item Condition' => $this->condition($this->condition),
+            'Quantity' => $this->qty > 1 ? $this->qty : 0,
+            'Start' => 'immediate',
             'End' => 'run until sold',
             'Starting Bid' => '1.00',
             'Sales Tax' => '',
             'Reserve' => '',
-            'Feature' => 'Gallery',
+            'Feature' => 'gallery',
             'YouTube Video ID' => '',
             'BuyNow Price' => $this->markup(
                 $this->cost_pro_member,
@@ -39,7 +70,7 @@ class EbidExportResource extends JsonResource
             ),
             'Brand' => $this->manufacturer,
             'Domestic Shipping' => '03=0.00',
-            'International Shipping' => '01',
+            'International Shipping' => '01=0.00',
             'Payment Methods' => '5',
             'Auto Repost' => '0',
             'SKU' => $this->sku,
@@ -58,14 +89,44 @@ class EbidExportResource extends JsonResource
         ];
     }
 
+    /**
+     * @param $name
+     * @param $sku
+     * @return string
+     */
     private function title($name, $sku)
     {
-        $sku_length = strlen($sku) + 1;
-        $short_name = preg_replace('/\W\w+\s*(\W*)$/', '$1', substr($name, 0, -$sku_length));
+        $sku_length = strlen($sku);
+
+        $new_name = substr($name, 0, 80);
+
+        $set_length = 79 - $sku_length;
+
+        $short_name = substr($new_name, 0, $set_length);
 
         return $short_name . ' ' . $sku;
     }
 
+    /**
+     * @param $current
+     * @return string
+     */
+    private function condition($current) {
+        if($current === 'Used; Like New') {
+            $condition = 'used';
+        } elseif ($current === 'Used') {
+            $condition = 'used';
+        } elseif ($current === 'Refurbished') {
+            $condition = 'refurbished';
+        } else {
+            $condition = 'new';
+        }
+        return $condition;
+    }
+
+    /**
+     * @return string
+     */
     public function image()
     {
         $image_array = explode(',', $this->additional_images);
@@ -94,6 +155,15 @@ class EbidExportResource extends JsonResource
         return $image1 . $image2 . $image3 . $image4;
     }
 
+    /**
+     * @param $name
+     * @param $description
+     * @param $package_includes
+     * @param $condition_description
+     * @param $warranty
+     * @param $return_policy
+     * @return string
+     */
     private function description(
         $name,
         $description,
@@ -139,7 +209,7 @@ class EbidExportResource extends JsonResource
         $payPal = $actualCost * 0.029 + 0.30;
         $bonanza = $actualCost * 0.02;
         $total = $actualCost + $payPal + $bonanza;
-        return number_format($total / 0.93, 2);
+        return number_format($total / 0.95, 2);
     }
 
 

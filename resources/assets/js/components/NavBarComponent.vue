@@ -23,14 +23,6 @@
                         exact>
                     <a class="nav-link">Products</a>
                 </router-link>
-                <router-link
-                        tag="li"
-                        class="nav-item"
-                        active-class="active"
-                        :to="{name: 'users.index'}"
-                        exact>
-                    <a class="nav-link">Users</a>
-                </router-link>
             </ul>
             <form class="form-inline mt-2 mt-md-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">

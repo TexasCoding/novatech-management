@@ -22,14 +22,6 @@
                         tag="li"
                         class="nav-item nav-link"
                         active-class="active"
-                        :to="{name: 'categories.add'}"
-                        exact>
-                    <font-awesome-icon :icon="folder" /> Categories
-                </router-link>
-                <router-link
-                        tag="li"
-                        class="nav-item nav-link"
-                        active-class="active"
                         :to="{name: 'ebid_categories.add'}"
                         exact>
                     <font-awesome-icon :icon="folder" /> Ebid Categories
@@ -65,6 +57,7 @@
     import faTachometerAlt from '@fortawesome/fontawesome-free-solid/faTachometerAlt';
     import faPlusCircle from '@fortawesome/fontawesome-free-solid/faPlusCircle';
     import faFolder from '@fortawesome/fontawesome-free-solid/faFolder';
+    import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
 
 
 export default {
@@ -77,6 +70,9 @@ export default {
         },
         folder() {
             return faFolder
+        },
+        spinner() {
+            return faSpinner
         }
     },
     components: {

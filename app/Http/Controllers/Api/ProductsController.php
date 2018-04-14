@@ -53,26 +53,18 @@ class ProductsController extends Controller
 
                     // if the products exists only update certain columns
                     if (Product::where('sku', $productArray[$i]['sku'])->first()) {
-                        // Update only for out of date csv
-                        if (count($productArray[$i]) < 3) {
-                            $prodArray = [
-                                'qty' => $productArray[$i]['qty'],
-                            ];
-                        } // update these if the product exists and not out-of-date csv
-                        else {
-                            $prodArray = [
-                                'cost_free_member' => $productArray[$i]['cost_free_member'],
-                                'cost_pro_member' => $productArray[$i]['cost_pro_member'],
-                                'map_price' => $productArray[$i]['map_price'],
-                                'shipping_cost' => $productArray[$i]['shipping_cost'],
-                                'upc_code' => $productArray[$i]['upc_code'],
-                                'qty' => $productArray[$i]['qty'],
-                                'image_url' => $productArray[$i]['image_url'],
-                                'additional_images' => $productArray[$i]['additional_images'],
-                                'category_id' => $category,
-                            ];
-                        }
-
+                        $prodArray = [
+                            'cost_free_member' => $productArray[$i]['cost_free_member'],
+                            'cost_pro_member' => $productArray[$i]['cost_pro_member'],
+                            'map_price' => $productArray[$i]['map_price'],
+                            'shipping_cost' => $productArray[$i]['shipping_cost'],
+                            'upc_code' => $productArray[$i]['upc_code'],
+                            'qty' => $productArray[$i]['qty'],
+                            'image_url' => $productArray[$i]['image_url'],
+                            'additional_images' => $productArray[$i]['additional_images'],
+                            'category_id' => $category,
+                            'banned' => $this->contains($productArray[$i]['name'], $productArray[$i]['description'], self::bannedWords()),
+                        ];
                     } else {
                         $prodArray = [
                             'entity_id' => $productArray[$i]['entity_id'],
@@ -201,7 +193,8 @@ class ProductsController extends Controller
             'Compound Bow',
             'compound bow',
             'recurve bow',
-            'Apex Gear'
+            'Apex Gear',
+            'Shark'
         ];
     }
 

@@ -5,13 +5,10 @@ import axios from 'axios';
 Vue.use(VueRouter);
 
 import App from './views/App';
-import Hello from './views/Hello';
 import Home from './views/Home';
-import UsersIndex from './views/UsersIndex';
 import ProductsComponent from './views/products/ProductsComponent';
 import ProductsDashboard from './views/products/ProductsDashboard';
 import ProductsInventoryAdd from './views/products/ProductsInventoryAdd';
-import CategoriesAdd from './views/categories/CategoriesAdd';
 import CategoriesSet from './views/categories/CategoriesSet';
 import EbidCategoriesAdd from './views/ebid_categories/EbidCategoriesAdd';
 import BonanzaCategoriesAdd from './views/bonanza_categories/BonanzaCategoriesAdd';
@@ -23,16 +20,6 @@ const router = new VueRouter({
             path: '/',
             name: 'home',
             component: Home,
-        },
-        {
-            path: '/hello',
-            name: 'hello',
-            component: Hello,
-        },
-        {
-            path: '/users',
-            name: 'users.index',
-            component: UsersIndex,
         },
         {
             path: '/products',
@@ -48,11 +35,6 @@ const router = new VueRouter({
                     path: '/products/inventory/add',
                     name: 'products.inventory.add',
                     component: ProductsInventoryAdd,
-                },
-                {
-                    path: '/categories/add',
-                    name: 'categories.add',
-                    component: CategoriesAdd,
                 },
                 {
                     path: '/categories/get',
@@ -73,6 +55,7 @@ const router = new VueRouter({
         },
     ]
 });
+
 
 const app = new Vue({
     el: '#app',

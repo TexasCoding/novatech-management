@@ -213,7 +213,7 @@ class EbidExportResource extends JsonResource
         $profit_goal = $actualCost * $percentage >= 1.00 ? $actualCost * $percentage : 1.00;
         $percent = 0.10;
 
-        for ($x = 0.00; $x <= $profit_goal; $percent += 0.000001) {
+        for ($x = 0.00; $x <= $profit_goal; $percent += 0.00001) {
             $sale_price = ($actualCost * $percent) + $actualCost;
             $payPal = $sale_price * 0.029 + 0.30;
             $bonanza = $sale_price * $market_place_markup;

@@ -11,6 +11,7 @@ class BonanzaExportController extends Controller
     public function index()
     {
         ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', 300);
         return BonanzaExportResource::collection(
             Product::where('banned', '=', false)->where('qty', '>', 1)
                 ->whereHas('category', function ($query) {

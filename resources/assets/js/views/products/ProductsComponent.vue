@@ -8,7 +8,8 @@
                         active-class="active"
                         :to="{name: 'products.dashboard'}"
                         exact>
-                    <font-awesome-icon :icon="tach" /> Dashboard
+                    <font-awesome-icon :icon="tach"/>
+                    Dashboard
                 </router-link>
                 <router-link
                         tag="li"
@@ -16,7 +17,8 @@
                         active-class="active"
                         :to="{name: 'products.inventory.add'}"
                         exact>
-                    <font-awesome-icon :icon="plus" /> Inventory
+                    <font-awesome-icon :icon="plus"/>
+                    Inventory
                 </router-link>
                 <router-link
                         tag="li"
@@ -24,7 +26,8 @@
                         active-class="active"
                         :to="{name: 'ebid_categories.add'}"
                         exact>
-                    <font-awesome-icon :icon="folder" /> Ebid Categories
+                    <font-awesome-icon :icon="folder"/>
+                    Ebid Categories
                 </router-link>
                 <router-link
                         tag="li"
@@ -32,7 +35,8 @@
                         active-class="active"
                         :to="{name: 'bonanza_categories.add'}"
                         exact>
-                    <font-awesome-icon :icon="folder" /> Bonanza Categories
+                    <font-awesome-icon :icon="folder"/>
+                    Bonanza Categories
                 </router-link>
                 <router-link
                         tag="li"
@@ -40,7 +44,8 @@
                         active-class="active"
                         :to="{name: 'categories.get'}"
                         exact>
-                    <font-awesome-icon :icon="folder" /> Get Categories
+                    <font-awesome-icon :icon="folder"/>
+                    Get Categories
                 </router-link>
             </ul>
         </div>
@@ -60,23 +65,23 @@
     import faSpinner from '@fortawesome/fontawesome-free-solid/faSpinner';
 
 
-export default {
-    computed: {
-        tach() {
-            return faTachometerAlt
+    export default {
+        computed: {
+            tach() {
+                return faTachometerAlt
+            },
+            plus() {
+                return faPlusCircle
+            },
+            folder() {
+                return faFolder
+            },
+            spinner() {
+                return faSpinner
+            }
         },
-        plus() {
-            return faPlusCircle
-        },
-        folder() {
-            return faFolder
-        },
-        spinner() {
-            return faSpinner
+        components: {
+            FontAwesomeIcon,
         }
-    },
-    components: {
-        FontAwesomeIcon,
     }
-}
 </script>

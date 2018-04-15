@@ -25,7 +25,11 @@ class BonanzaExportResource extends JsonResource
                 $this->warranty,
                 $this->return_policy
             ),
-            'price' => $this->markup($this->cost_pro_member, $this->shipping_cost),
+            'price' => $this->markup(
+                $this->cost_pro_member,
+                $this->shipping_cost,
+                0.035,
+                0.03),
             'image1' => $this->image()['image1'],
             'image2' => $this->image()['image2'],
             'image3' => $this->image()['image3'],
@@ -154,17 +158,37 @@ class BonanzaExportResource extends JsonResource
         return $brandTrait . $conditionTrait . $mpnTrait . $upcTrait;
     }
 
+//    private function markup($cost, $shipping)
+//    {
+//        $actualCost = $cost * 0.029 + 0.30 + $shipping + $cost;
+//        $payPal = $actualCost * 0.029 + 0.30;
+//        $bonanza = $actualCost * 0.035;
+//        $total = $actualCost + $payPal + $bonanza;
+//        return number_format($total / 0.95, 2);
+//    }
+
     /**
      * @param $cost
      * @param $shipping
+     * @param $market_place_markup
+     * @param float $percentage
      * @return string
      */
-    private function markup($cost, $shipping)
+    private function markup($cost, $shipping, $market_place_markup, $percentage = 0.04)
     {
         $actualCost = $cost * 0.029 + 0.30 + $shipping + $cost;
-        $payPal = $actualCost * 0.029 + 0.30;
-        $bonanza = $actualCost * 0.035;
-        $total = $actualCost + $payPal + $bonanza;
-        return number_format($total / 0.95, 2);
+        $profit_goal = $actualCost * $percentage >= 1.00 ? $actualCost * $percentage : 1.00;
+        $percent = 0.10;
+
+        for ($x = 0.00; $x <= $profit_goal; $percent += 0.000001) {
+            $sale_price = ($actualCost * $percent) + $actualCost;
+            $payPal = $sale_price * 0.029 + 0.30;
+            $bonanza = $sale_price * $market_place_markup;
+            $fee_total = $payPal + $bonanza;
+            $total_cost = $actualCost + $fee_total;
+            $x = $sale_price - $total_cost;
+        }
+
+        return number_format($sale_price, 2);
     }
 }

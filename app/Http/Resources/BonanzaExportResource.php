@@ -28,8 +28,8 @@ class BonanzaExportResource extends JsonResource
             'price' => $this->markup(
                 $this->cost_pro_member,
                 $this->shipping_cost,
-                0.035,
-                0.03),
+                0.09,
+                0.02),
             'image1' => $this->image()['image1'],
             'image2' => $this->image()['image2'],
             'image3' => $this->image()['image3'],
@@ -157,15 +157,6 @@ class BonanzaExportResource extends JsonResource
 
         return $brandTrait . $conditionTrait . $mpnTrait . $upcTrait;
     }
-
-//    private function markup($cost, $shipping)
-//    {
-//        $actualCost = $cost * 0.029 + 0.30 + $shipping + $cost;
-//        $payPal = $actualCost * 0.029 + 0.30;
-//        $bonanza = $actualCost * 0.035;
-//        $total = $actualCost + $payPal + $bonanza;
-//        return number_format($total / 0.95, 2);
-//    }
 
     /**
      * @param $cost

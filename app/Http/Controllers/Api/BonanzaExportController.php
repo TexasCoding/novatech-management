@@ -13,7 +13,8 @@ class BonanzaExportController extends Controller
         ini_set('memory_limit', '-1');
         ini_set('max_execution_time', 300);
         return BonanzaExportResource::collection(
-            Product::where('banned', '=', false)->where('qty', '>', 1)
+            Product::where('banned', '=', false)
+                ->where('qty', '>', 1)
                 ->whereHas('category', function ($query) {
                     $query->where('bonanza_category', '>', 1);
                 })->get()
@@ -23,7 +24,8 @@ class BonanzaExportController extends Controller
 
     public function count()
     {
-        return Product::where('banned', '=', false)->where('qty', '>', 1)
+        return Product::where('banned', '=', false)
+            ->where('qty', '>', 1)
             ->whereHas('category', function ($query) {
                 $query->where('bonanza_category', '>', 1);
             })->count();

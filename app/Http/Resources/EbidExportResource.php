@@ -14,37 +14,6 @@ class EbidExportResource extends JsonResource
      */
     public function toArray($request)
     {
-        if ($this->qty < 2) {
-            return [
-                'Username' => 'aegisaccessories',
-                'Category id' => '',
-                'eBid Store Category' => '',
-                'Barcode' => '',
-                'Auction Title' => '',
-                'Image URL' => '',
-                'Item Condition' => '',
-                'Quantity' => '',
-                'Start' => '',
-                'End' => '',
-                'Starting Bid' => '',
-                'Sales Tax' => '',
-                'Reserve' => '',
-                'Feature' => '',
-                'YouTube Video ID' => '',
-                'BuyNow Price' => '',
-                'Brand' => '',
-                'Domestic Shipping' => '',
-                'International Shipping' => '',
-                'Payment Methods' => '',
-                'Auto Repost' => '',
-                'SKU' => $this->sku,
-                'Dispatch Time' =>'',
-                'Return Policy' => '',
-                'Description' => '',
-                'Action' => 'd',
-                'end' => '##end##',
-            ];
-        }
         return [
             'Username' => 'aegisaccessories',
             'Category id' => $this->category->ebid_category,
@@ -68,7 +37,7 @@ class EbidExportResource extends JsonResource
                 $this->cost_pro_member,
                 $this->shipping_cost,
                 0.02,
-                0.03
+                0.02
             ),
             'Brand' => $this->manufacturer,
             'Domestic Shipping' => '03=0.00',
